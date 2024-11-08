@@ -10,18 +10,18 @@ const App = () => {
 
   return (
     <Routes>
-      <Route path="/eventmanager" element={<Login setIsAuthenticated={setIsAuthenticated} setIsAdmin={setIsAdmin} />} />
+      <Route path="/" element={<Login setIsAuthenticated={setIsAuthenticated} setIsAdmin={setIsAdmin} />} />
       
       {isAuthenticated && isAdmin ? (
         <Route path="/admin/*" element={<AdminApp />} />
       ) : (
-        <Route path="/admin/*" element={<Navigate to="/eventmanager"  />} />
+        <Route path="/admin/*" element={<Navigate to="/"  />} />
       )}
 
       {isAuthenticated && !isAdmin ? (
         <Route path="/user/*" element={<UserApp />} />
       ) : (
-        <Route path="/user/*" element={<Navigate to="/eventmanager"  />} />
+        <Route path="/user/*" element={<Navigate to="/"  />} />
       )}
     </Routes>
   );
