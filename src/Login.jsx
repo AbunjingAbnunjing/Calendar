@@ -2,11 +2,26 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
+// Separate components for image and heading
+const PanelImage = () => {
+  return (
+    <img
+      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnHbRsZ-AWHOSjc-r0hcNEAv3iSyppF4v_Fw&s"
+      alt="User Icon"
+      className="panel-image"
+    />
+  );
+};
+
+const PanelHeading = () => {
+  return <h5 className="companyname"> College of the Immaculate Conception</h5>;
+};
+
 const Login = ({ setIsAuthenticated, setIsAdmin }) => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
-  const [isSignUpMode, setIsSignUpMode] = useState(false);
+  const [isAdminMode, setIsAdminMode] = useState(false); // Control admin mode
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
@@ -43,66 +58,63 @@ const Login = ({ setIsAuthenticated, setIsAdmin }) => {
   };
 
   return (
-    <div className={`container ${isSignUpMode ? 'sign-up-mode' : ''}`}>
-      <div className="user-admin">
-      <div className='usersignin'>
-        <form onSubmit={handleLogin} className="sign-in-form">
-          <h2 className="title1">User</h2>
-          <div className="input-field">
-            <i className="fas fa-user"></i>
-            <input type="text" name="email" placeholder="Email" onChange={handleInputChange} />
+    <div className="container">
+      <div className="panels-container">
+        <div className="panel left-panel">
+          <div className="content">
+            <PanelImage />  {/* Use the PanelImage component */}
+            <PanelHeading />  {/* Use the PanelHeading component */}
+            <button className="btn" onClick={() => setIsAdminMode(false)}>User</button>
           </div>
-          <div className="input-field">
-            <i className="fas fa-lock"></i>
-            <input type="password" name="password" placeholder="Password" onChange={handleInputChange} />
-          </div>
-          <input type="submit" className="btn" value="Login" />
-          <p className="account-text">
-            <a href="#" onClick={() => setIsSignUpMode(true)}>Admin</a>
-          </p>
-        </form>
         </div>
-      <div className='adminsignin'>
-        <form onSubmit={handleLogin} className="sign-up-form">
-          <h2 className="title2">Admin</h2>
-          <div className="input-field">
-            <i className="fas fa-user"></i>
-            <input type="text" name="email" placeholder="Email" onChange={handleInputChange} />
+        <div className="panel right-panel">
+          <div className="content">
+            <button className="btn" onClick={() => setIsAdminMode(true)}>Admin</button>
           </div>
-          <div className="input-field">
-            <i className="fas fa-lock"></i>
-            <input type="password" name="password" placeholder="Password" onChange={handleInputChange} />
-          </div>
-          <input type="submit" className="btn" value="Login" />
-          <p className="account-text">
-            <a href="#" onClick={() => setIsSignUpMode(false)}>User</a>
-          </p>
-        </form>
         </div>
       </div>
 
-      <div className="panels-container">
-  <div className="panel left-panel">
-    <div className="content">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnHbRsZ-AWHOSjc-r0hcNEAv3iSyppF4v_Fw&s" alt="User Icon" className="panel-image" />
-      <h5 className="companyname">COLLEGE OF THE IMMACULATE CONCEPTION</h5>
-      <button className="btn" onClick={() => setIsSignUpMode(false)}>User</button>
-    </div>
-  </div>
-  <div className="panel right-panel">
-    <div className="content">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnHbRsZ-AWHOSjc-r0hcNEAv3iSyppF4v_Fw&s" alt="Admin Icon" className="panel-image" />
-      <h5 className="companyname">COLLEGE OF THE IMMACULATE CONCEPTION</h5>
-      <button className="btn" onClick={() => setIsSignUpMode(true)}>Admin</button>
-    </div>
-  </div>
-</div>
+      {/* User Login Form */}
+      {!isAdminMode && (
+        <div className="user-login">
+          <form onSubmit={handleLogin} className="sign-in-form">
+            <h2 className="title1">User</h2>
+            <div className="input-field">
+              <i className="fas fa-user"></i>
+              <input type="text" name="email" placeholder="Email" onChange={handleInputChange} />
+            </div>
+            <div className="input-field">
+              <i className="fas fa-lock"></i>
+              <input type="password" name="password" placeholder="Password" onChange={handleInputChange} />
+            </div>
+            <input type="submit" className="btn" value="Login" />
+          </form>
+        </div>
+      )}
+
+      {/* Admin Login Form */}
+      {isAdminMode && (
+        <div className="admin-login">
+          <form onSubmit={handleLogin} className="sign-up-form">
+            <h2 className="title2">Admin</h2>
+            <div className="input-field">
+              <i className="fas fa-user"></i>
+              <input type="text" name="email" placeholder="Email" onChange={handleInputChange} />
+            </div>
+            <div className="input-field">
+              <i className="fas fa-lock"></i>
+              <input type="password" name="password" placeholder="Password" onChange={handleInputChange} />
+            </div>
+            <input type="submit" className="btn" value="Login" />
+          </form>
+        </div>
+      )}
 
       {showModal && (
         <div className="modallogin">
           <div className="modal-content-login">
             <span className="closelogin" onClick={closeModal}>&times;</span>
-            <p className='modal-content-loginto'>{modalMessage}</p>
+            <p className="modal-content-loginto">{modalMessage}</p>
           </div>
         </div>
       )}
